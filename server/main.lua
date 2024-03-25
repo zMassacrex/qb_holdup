@@ -7,21 +7,17 @@ CancelledTimeouts = {}
 
 RegisterNetEvent('qb_holdup:tooFar', function(currentStore)
 	local source = source
-	local xPlayers = QBCore.Functions.GetPlayers()
+	local Police, PoliceCount = QBCore.Functions.GetPlayersOnDuty('police')
 	rob = false
 
-	for i = 1, #xPlayers do
-		local xPlayer = QBCore.Functions.GetPlayer(xPlayers[i])
-		
-		if (xPlayer.PlayerData.job.name == "police" or xPlayer.PlayerData.job.type == "leo") and xPlayer.PlayerData.job.onduty then
-			TriggerClientEvent('qb_holdup:killBlip', xPlayers[i])
-		end
+	for _, police in pairs(Police) do
+		TriggerClientEvent('qb_holdup:killBlip', police)
 	end
 	
 	if robbers[source] then
 		TriggerClientEvent('qb_holdup:tooFar', source)
 		clearTimeout(robbers[source])
-        robbers[source] = nil
+       	 	robbers[source] = nil
 	end
 end)
 
